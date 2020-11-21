@@ -94,18 +94,46 @@ app.get('/pattern',function (req,res){
 	var conf = new Object();
 	switch(pattern){
 			case "iterate":
+					var red = req.query.red;
+					var green = req.query.green;
+					var blue = req.query.blue;
+					var brightness = parseInt(req.query.brightness);
+					var delay = parseFloat(req.query.delay);
+					if( ( red === undefined || red < 0 || red > 255 ) ||
+						( green === undefined || green < 0 || green > 255 ) ||
+						( blue === undefined || blue < 0 || blue > 255 ) ||
+						( brightness === undefined || brightness < 0 || brightness > 100 ) || 
+						( delay === undefined || delay < 0 || delay > 1000 )) {
+						res.send("{}");
+						return;
+					}
 					conf.pattern = "iterate";
+					conf.color = rgb2Int(red,green,blue);
+					conf.brightness = brightness;
+					conf.delay = delay;
 					res.type("application/json");
 					res.send(JSON.stringify(conf))
 					switchAllLedOff();
-					setTimeout(function(){iterate(rgb2Int(255,255,255), 50, 500)}, 100);
+					setTimeout(function(){iterate(rgb2Int(red,green,blue), brightness, delay)}, 100);
 					break;
 			case "rainbow":
+					var brightness = parseInt(req.query.brightness);
+					var delay = parseFloat(req.query.delay);
+					var distance = parseInt(req.query.distance);
+					if( ( distance === undefined || distance < 0 || distance > 1000 ) ||
+						( brightness === undefined || brightness < 0 || brightness > 100 ) || 
+						( delay === undefined || delay < 0 || delay > 1000 )) {
+						res.send("{}");
+						return;
+					}
 					conf.pattern = "rainbow";
+					conf.brightness = brightness;
+					conf.delay = delay;
+					conf.distance = distance;
 					res.type("application/json");
-					res.send(JSON.stringify(conf))
+					res.send(JSON.stringify(conf));
 					switchAllLedOff();
-					setTimeout(function(){rainbow(256,100,33.3)}, 100);
+					setTimeout(function(){rainbow(distance,brightness,delay)}, 100);
 					break;
 			default:
 					res.type("application/json");
