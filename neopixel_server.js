@@ -103,7 +103,7 @@ app.get('/pattern',function (req,res){
 						( green == null || typeof(green) === undefined || green < 0 || green > 255 ) ||
 						( blue == null || typeof(blue) === undefined || blue < 0 || blue > 255 ) ||
 						( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
-						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 100 )) {
 						res.send("{}");
 						return;
 					}
@@ -252,7 +252,7 @@ function iterate(color, brightness, speed){
 
 	  offset = (offset + 1) % NUM_LEDS;
 	  ws281x.render(pixelData);
-	}, speed);
+	}, speed*10);
 };
 
 //Continually change colors smoothly. Should be set to a timeout.
