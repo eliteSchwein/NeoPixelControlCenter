@@ -213,7 +213,7 @@ function rainbow(distance,brightness,delay){
 	ws281x.setBrightness(brightness);
 	timer=setInterval(function () {
 	  for (var i = 0; i < NUM_LEDS; i++) {
-		pixelData[i] = colorwheel((offset + i) % 256);
+		pixelData[i] = colorwheel((offset + i) % distance);
 	  }
 	  offset = (offset + 1) % distance;
 	  ws281x.render(pixelData);
