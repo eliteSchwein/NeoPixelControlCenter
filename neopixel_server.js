@@ -1,15 +1,23 @@
-var ws281x = require('rpi-ws281x-native');
-var express = require('express');
+"use strict";
+
 const defaultBrightness = 10;
 const redColor = rgb2Int(255,0,0);
+const NUM_LED = 35;
+const PORT = 8083;
+
+var ws281x = require('rpi-ws281x-native');
+var express = require('express');
+
 var ledIdInit = 0;
 var initTimes = 4 * 8;
 var app = express();
 
-var NUM_LEDS = parseInt(process.argv[2], 10) || 8,
-    pixelData = new Uint32Array(NUM_LEDS);
+var NUM_LEDS = parseInt(process.argv[2], 10) || NUM_LED,
+	pixelData = new Uint32Array(NUM_LEDS);
 
 ws281x.init(NUM_LEDS);
+
+var timer;
 
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
@@ -81,6 +89,31 @@ app.get('/changeLed',function (req,res){
 	return;
 });
 
+app.get('/pattern',function (req,res){
+	var pattern = req.query.id;
+	var conf = new Object();
+	switch(pattern){
+			case "iterate":
+					conf.pattern = "iterate";
+					res.type("application/json");
+					res.send(JSON.stringify(conf))
+					switchAllLedOff();
+					setTimeout(function(){iterate(rgb2Int(255,255,255), 50, 500)}, 100);
+					break;
+			case "rainbow":
+					conf.pattern = "rainbow";
+					res.type("application/json");
+					res.send(JSON.stringify(conf))
+					switchAllLedOff();
+					setTimeout(function(){rainbow(256,100,33.3)}, 100);
+					break;
+			default:
+					res.type("application/json");
+					res.send('{"pattern": "Not Found"}')
+					break;
+	}
+	return;
+});
 
 defBrightness();
 
@@ -96,9 +129,9 @@ function startupSequence() {
 	initTimes--;
 	if(initTimes === 0) {
 		switchAllLedOff();
-		changeLed(7,redColor,20);
-		//app.listen(8083,'localhost');
-		app.listen(8083);
+		app.listen(PORT, () => {
+			console.log(`Started listening on port 8083`);
+		});
 	} else 
 		setTimeout(startupSequence, 200);
 }
@@ -111,6 +144,7 @@ function changeLed(ledId,color,brightness) {
 
 
 function switchAllLedOff() {
+	clearInterval(timer);
 	ws281x.setBrightness(0);
 	var noColor = rgb2Int(0,0,0);
   	for (var i = 0; i < NUM_LEDS; i++) {
@@ -128,3 +162,39 @@ function defBrightness(){
 function rgb2Int(r, g, b) {
   return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
+
+//Iterate over all of the LEDs with a given color and brightness
+function iterate(color, brightness, delay){
+	var offset = 0;
+	ws281x.setBrightness(brightness);
+	timer=setInterval(function () {
+	  var i=NUM_LEDS;
+	  while(i--) {
+		  pixelData[i] = 0;
+	  }
+	  pixelData[offset] = color;
+
+	  offset = (offset + 1) % NUM_LEDS;
+	  ws281x.render(pixelData);
+	}, delay);
+};
+
+//Continually change colors smoothly. Should be set to a timeout.
+function rainbow(distance,brightness,delay){
+	var offset = 0;
+	ws281x.setBrightness(brightness);
+	timer=setInterval(function () {
+	  for (var i = 0; i < NUM_LEDS; i++) {
+		pixelData[i] = colorwheel((offset + i) % 256);
+	  }
+	  offset = (offset + 1) % distance;
+	  ws281x.render(pixelData);
+	}, delay);
+	// rainbow-colors, taken from http://goo.gl/Cs3H0v
+	function colorwheel(pos) {
+	  pos = 255 - pos;
+	  if (pos < 85) { return rgb2Int(255 - pos * 3, 0, pos * 3); }
+	  else if (pos < 170) { pos -= 85; return rgb2Int(0, pos * 3, 255 - pos * 3); }
+	  else { pos -= 170; return rgb2Int(pos * 3, 255 - pos * 3, 0); }
+	}
+};

@@ -4,7 +4,8 @@
   "description": "A webserver built with express, to control single led on neopixel throught a rest api",
   "main": "neopixel_server.js",
   "dependencies": {
-    "express": "^4.15.4",
+    "express": "^4.17.1",
+    "node-addon-api": "^3.0.2",
     "rpi-ws281x-native": "^0.8.2"
   },
   "devDependencies": {},
