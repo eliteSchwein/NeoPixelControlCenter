@@ -196,7 +196,7 @@ defBrightness();
 setTimeout(startupSequence, 200);
 
 function startupSequence() {
-	rainbow(3,parseInt(100),parseInt(5));
+	rainbow(3,parseInt(100),parseInt(0));
 	setTimeout(startServer, 1000);
 }
 function startServer() {
