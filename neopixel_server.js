@@ -32,12 +32,12 @@ app.get('/switchAllOff', function (req, res) {
 });
 
 app.get('/changeLedInRange',function (req,res){
-	var from = parseInt(req.query.from);
-	var to  = parseInt(req.query.to);
+	var from = req.query.from;
+	var to  = req.query.to;
 	var red = req.query.red;
 	var green = req.query.green;
 	var blue = req.query.blue;
-	var brightness = parseInt(req.query.brightness);
+	var brightness = req.query.brightness;
 	if(
 			( from == null || typeof(from) === undefined || from < 0 || from > NUM_LEDS-1 ) ||
 			( to == null || typeof(to) === undefined || to < 0 || to > NUM_LEDS-1 ) ||
@@ -62,11 +62,11 @@ app.get('/changeLedInRange',function (req,res){
 });
 
 app.get('/changeLed',function (req,res){
-	var ledId = parseInt(req.query.ledId);
+	var ledId = req.query.ledId;
 	var red = req.query.red;
 	var green = req.query.green;
 	var blue = req.query.blue;
-	var brightness = parseInt(req.query.brightness);
+	var brightness = req.query.brightness;
 	if( ( ledId == null || typeof(ledId)===undefined || ledId < 0 || ledId > NUM_LEDS-1 ) ||
 		( red == null || typeof(red) === undefined || red < 0 || red > 255 ) ||
 		( green == null || typeof(green) === undefined || green < 0 || green > 255 ) ||
@@ -97,8 +97,8 @@ app.get('/pattern',function (req,res){
 					var red = req.query.red;
 					var green = req.query.green;
 					var blue = req.query.blue;
-					var brightness = parseInt(req.query.brightness);
-					var delay = parseFloat(req.query.delay);
+					var brightness = req.query.brightness;
+					var delay = req.query.delay;
 					if( ( red == null || typeof(red) === undefined || red < 0 || red > 255 ) ||
 						( green == null || typeof(green) === undefined || green < 0 || green > 255 ) ||
 						( blue == null || typeof(blue) === undefined || blue < 0 || blue > 255 ) ||
@@ -117,9 +117,9 @@ app.get('/pattern',function (req,res){
 					setTimeout(function(){iterate(rgb2Int(red,green,blue), brightness, delay)}, 100);
 					break;
 			case "rainbow":
-					var brightness = parseInt(req.query.brightness);
-					var delay = parseFloat(req.query.delay);
-					var distance = parseInt(req.query.distance);
+					var brightness = req.query.brightness;
+					var delay = req.query.delay;
+					var distance = req.query.distance;
 					if( ( distance == null || typeof(distance) === undefined || distance < 0 || distance > 1000 ) ||
 						( brightness == null || typeof(brightness) === undefined || brightness < 0 || brightness > 100 ) || 
 						( delay == null || typeof(delay) === undefined || delay < 0 || delay > 1000 )) {
