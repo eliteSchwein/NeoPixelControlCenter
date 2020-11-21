@@ -1,22 +1,30 @@
 {
-  "name": "neopixelwebserver",
-  "version": "1.0.0",
-  "description": "A webserver built with express, to control single led on neopixel throught a rest api",
+  "name": "neopixelcontrolserver",
+  "version": "B0.1",
+  "description": "A webserver built with express, to control single led on neopixel throught a rest api or interface",
   "main": "neopixel_server.js",
   "dependencies": {
     "express": "^4.17.1",
     "node-addon-api": "^3.0.2",
-    "rpi-ws281x-native": "^0.8.2"
+    "rpi-ws281x-native": "^0.10.0"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eliteSchwein/NeoPixelControlCenter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eliteSchwein/NeoPixelControlCenter/issues"
+  },
+  "homepage": "https://github.com/eliteSchwein/NeoPixelControlCenter#readme",
   "keywords": [
     "neopixel",
     "raspberrypi",
     "pizero"
   ],
-  "author": "Andrea De Gaetano",
+  "author": "eliteSCHW31N",
   "license": "ISC"
 }
