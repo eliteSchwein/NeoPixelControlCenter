@@ -196,20 +196,14 @@ defBrightness();
 setTimeout(startupSequence, 200);
 
 function startupSequence() {
-	changeLed(ledIdInit,redColor,30);
-	ledIdInit++;	
-	if ( ledIdInit > NUM_LEDS ){  
-		ledIdInit = 0;
-		switchAllLedOff();
-	}
-	initTimes--;
-	if(initTimes === 0) {
-		switchAllLedOff();
-		app.listen(PORT, () => {
-			console.log(`Started listening on port 8083`);
-		});
-	} else 
-		setTimeout(startupSequence, 200);
+	rainbow(3,parseInt(100),parseInt(5));
+	setTimeout(startServer, 1000);
+}
+function startServer() {
+	switchAllLedOff();
+	app.listen(PORT, () => {
+		console.log(`Started listening on port 8083`);
+	});
 }
 
 function changeLed(ledId,color,brightness) {
