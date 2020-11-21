@@ -45,7 +45,7 @@ app.get('/changeLedInRange',function (req,res){
 			( red == null || typeof(red) === undefined || red < 0 || red > 255 ) ||
 			( green == null || typeof(green) === undefined || green < 0 || green > 255 ) ||
 			( blue == null || typeof(blue) === undefined || blue < 0 || blue > 255 ) ||
-			( brightness == null || typeof(brightness) === undefined || brightness < 0 || brightness > 100 )) {
+			( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 )) {
 			res.send("{}");
 			return;
 	}
@@ -71,7 +71,7 @@ app.get('/changeLed',function (req,res){
 		( red == null || typeof(red) === undefined || red < 0 || red > 255 ) ||
 		( green == null || typeof(green) === undefined || green < 0 || green > 255 ) ||
 		( blue == null || typeof(blue) === undefined || blue < 0 || blue > 255 ) ||
-		( brightness == null || typeof(brightness) === undefined || brightness < 0 || brightness > 100 )) {
+		( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 )) {
 		res.send("{}");
 		return;
 	}
@@ -102,8 +102,8 @@ app.get('/pattern',function (req,res){
 					if( ( red == null || typeof(red) === undefined || red < 0 || red > 255 ) ||
 						( green == null || typeof(green) === undefined || green < 0 || green > 255 ) ||
 						( blue == null || typeof(blue) === undefined || blue < 0 || blue > 255 ) ||
-						( brightness == null || typeof(brightness) === undefined || brightness < 0 || brightness > 100 ) || 
-						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 1000 )) {
+						( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
+						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
 						res.send("{}");
 						return;
 					}
@@ -116,13 +116,61 @@ app.get('/pattern',function (req,res){
 					switchAllLedOff();
 					setTimeout(function(){iterate(rgb2Int(red,green,blue), parseInt(brightness), parseFloat(speed))}, 100);
 					break;
-			case "rainbow":
+			case "rainbow-cycle-2":
+					var brightness = req.query.brightness;
+					var speed = req.query.speed;
+					if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
+						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+						res.send("{}");
+						return;
+					}
+					conf.pattern = "rainbow-cycle-2";
+					conf.brightness = brightness;
+					conf.speed = speed;
+					res.type("application/json");
+					res.send(JSON.stringify(conf));
+					switchAllLedOff();
+					setTimeout(function(){rainbow(1,parseInt(brightness),parseInt(speed))}, 100);
+					break;
+					case "rainbow-cycle":
+						var brightness = req.query.brightness;
+						var speed = req.query.speed;
+						if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
+							( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+							res.send("{}");
+							return;
+						}
+						conf.pattern = "rainbow-cycle";
+						conf.brightness = brightness;
+						conf.speed = speed;
+						res.type("application/json");
+						res.send(JSON.stringify(conf));
+						switchAllLedOff();
+						setTimeout(function(){rainbow(3,parseInt(brightness),parseInt(speed))}, 100);
+						break;
+				case "rainbow-full":
+					var brightness = req.query.brightness;
+					var speed = req.query.speed;
+					if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
+						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+						res.send("{}");
+						return;
+					}
+					conf.pattern = "rainbow-full";
+					conf.brightness = brightness;
+					conf.speed = speed;
+					res.type("application/json");
+					res.send(JSON.stringify(conf));
+					switchAllLedOff();
+					setTimeout(function(){rainbow(35,parseInt(brightness),parseInt(speed))}, 100);
+					break;
+				case "rainbow-custom":
 					var brightness = req.query.brightness;
 					var speed = req.query.speed;
 					var iterations = req.query.iterations;
-					if( ( iterations == null || typeof(iterations) === undefined || iterations < 0 || iterations > 1000 ) ||
-						( brightness == null || typeof(brightness) === undefined || brightness < 0 || brightness > 100 ) || 
-						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 1000 )) {
+					if( ( iterations == null || typeof(iterations) === undefined || iterations < 1 || iterations > 35 ) ||
+						( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
+						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
 						res.send("{}");
 						return;
 					}
@@ -135,7 +183,7 @@ app.get('/pattern',function (req,res){
 					switchAllLedOff();
 					setTimeout(function(){rainbow(parseFloat(iterations),parseInt(brightness),parseInt(speed))}, 100);
 					break;
-			default:
+				default:
 					res.type("application/json");
 					res.send('{"pattern": "Not Found"}')
 					break;
