@@ -215,14 +215,14 @@ function rainbow(distance,brightness,delay){
 	  for (var i = 0; i < NUM_LEDS; i++) {
 		pixelData[i] = colorwheel((offset + i) % 256);
 	  }
-	  offset = (offset + 1) % 256;
+	  offset = (offset + distance) % 256;
 	  ws281x.render(pixelData);
 	}, delay);
 	// rainbow-colors, taken from http://goo.gl/Cs3H0v
 	function colorwheel(pos) {
 	  pos = 255 - pos;
-	  if (pos < 85) { return rgb2Int(255 - pos * distance, 0, pos * distance); }
-	  else if (pos < 170) { pos -= 85; return rgb2Int(0, pos * distance, 255 - pos * distance); }
-	  else { pos -= 170; return rgb2Int(pos * distance, 255 - pos * distance, 0); }
+	  if (pos < 85) { return rgb2Int(255 - pos * 3, 0, pos * 3); }
+	  else if (pos < 170) { pos -= 85; return rgb2Int(0, pos * 3, 255 - pos * 3); }
+	  else { pos -= 170; return rgb2Int(pos * 3, 255 - pos * 3, 0); }
 	}
 };
