@@ -2,7 +2,7 @@
 
 const defaultBrightness = 10;
 const redColor = rgb2Int(255,0,0);
-const NUM_LED = 35;
+const NUM_LED = 45;
 const PORT = 8083;
 
 var ws281x = require('rpi-ws281x-native');
