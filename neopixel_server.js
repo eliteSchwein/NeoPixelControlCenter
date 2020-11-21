@@ -174,7 +174,7 @@ app.get('/pattern',function (req,res){
 					res.send("{}");
 					return;
 				}
-				conf.pattern = "rainbow";
+				conf.pattern = "rainbow-custom";
 				conf.brightness = brightness;
 				conf.speed = speed;
 				conf.iterations = iterations;
