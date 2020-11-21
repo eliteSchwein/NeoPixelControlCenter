@@ -212,14 +212,14 @@ function rainbow(distance,brightness,delay){
 	ws281x.setBrightness(brightness);
 	var offset = 0;
 	timer=setInterval(function () {
-		for (var j = 0; j < 256*distance+offset; j++){
+		for (var j = 0; j < 256*delay+offset; j++){
 			for (var i = 0; i < NUM_LEDS; i++) {
-				pixelData[i] = colorwheel((i * 256 / NUM_LEDS + j) & 255);
+				pixelData[i] = colorwheel((i * 256 / NUM_LEDS + j + distance) & 255);
 			  }
 		}
 		offset = (offset + 1) % 256;
 	  	ws281x.render(pixelData);
-	}, delay);
+	}, 33.3);
 	// rainbow-colors, taken from http://goo.gl/Cs3H0v
 	function colorwheel(pos) {
 	  pos = 255 - pos;
