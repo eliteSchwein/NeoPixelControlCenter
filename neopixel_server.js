@@ -50,8 +50,8 @@ app.get('/changeLedInRange',function (req,res){
 			return;
 	}
 
-	ws281x.setBrightness(brightness);
-	for(var ledId = from;ledId<=to;ledId++) {
+	ws281x.setBrightness(parseInt(brightness));
+	for(var ledId = parseInt(from);ledId<=parseInt(to);ledId++) {
 			var color = rgb2Int(red,green,blue);
 			pixelData[ledId] = color;
 	}
@@ -85,7 +85,7 @@ app.get('/changeLed',function (req,res){
 	console.log("Brightness " + brightness);
 	res.type("application/json");
 	res.send(JSON.stringify(conf));
-	changeLed(ledId,conf.color,conf.brightness);
+	changeLed(parseInt(ledId),conf.color,parseInt(conf.brightness));
 	return;
 });
 
@@ -114,7 +114,7 @@ app.get('/pattern',function (req,res){
 					res.type("application/json");
 					res.send(JSON.stringify(conf))
 					switchAllLedOff();
-					setTimeout(function(){iterate(rgb2Int(red,green,blue), brightness, delay)}, 100);
+					setTimeout(function(){iterate(rgb2Int(red,green,blue), parseInt(brightness), parseFloat(delay))}, 100);
 					break;
 			case "rainbow":
 					var brightness = req.query.brightness;
@@ -133,7 +133,7 @@ app.get('/pattern',function (req,res){
 					res.type("application/json");
 					res.send(JSON.stringify(conf));
 					switchAllLedOff();
-					setTimeout(function(){rainbow(distance,brightness,delay)}, 100);
+					setTimeout(function(){rainbow(parseInt(distance),parseInt(brightness),parseFloat(delay))}, 100);
 					break;
 			default:
 					res.type("application/json");
