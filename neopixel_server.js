@@ -39,13 +39,13 @@ app.get('/changeLedInRange',function (req,res){
 	var blue = req.query.blue;
 	var brightness = parseInt(req.query.brightness);
 	if(
-			( from === null || from === undefined || from < 0 || from > NUM_LEDS-1 ) ||
-			( to === null || to === undefined || to < 0 || to > NUM_LEDS-1 ) ||
+			( from == null || from === undefined || from < 0 || from > NUM_LEDS-1 ) ||
+			( to == null || to === undefined || to < 0 || to > NUM_LEDS-1 ) ||
 			( from >= to ) ||
-			( red === null || red === undefined || red < 0 || red > 255 ) ||
-			( green === null || green === undefined || green < 0 || green > 255 ) ||
-			( blue === null || blue === undefined || blue < 0 || blue > 255 ) ||
-			( brightness === null || brightness === undefined || brightness < 0 || brightness > 100 )) {
+			( red == null || red === undefined || red < 0 || red > 255 ) ||
+			( green == null || green === undefined || green < 0 || green > 255 ) ||
+			( blue == null || blue === undefined || blue < 0 || blue > 255 ) ||
+			( brightness == null || brightness === undefined || brightness < 0 || brightness > 100 )) {
 			res.send("{}");
 			return;
 	}
@@ -67,11 +67,11 @@ app.get('/changeLed',function (req,res){
 	var green = req.query.green;
 	var blue = req.query.blue;
 	var brightness = parseInt(req.query.brightness);
-	if( ( ledId === null || ledId===undefined || ledId < 0 || ledId > NUM_LEDS-1 ) ||
-		( red === null || red === undefined || red < 0 || red > 255 ) ||
-		( green === null || green === undefined || green < 0 || green > 255 ) ||
-		( blue === null || blue === undefined || blue < 0 || blue > 255 ) ||
-		( brightness === null || brightness === undefined || brightness < 0 || brightness > 100 )) {
+	if( ( ledId == null || ledId===undefined || ledId < 0 || ledId > NUM_LEDS-1 ) ||
+		( red == null || red === undefined || red < 0 || red > 255 ) ||
+		( green == null || green === undefined || green < 0 || green > 255 ) ||
+		( blue == null || blue === undefined || blue < 0 || blue > 255 ) ||
+		( brightness == null || brightness === undefined || brightness < 0 || brightness > 100 )) {
 		res.send("{}");
 		return;
 	}
@@ -99,11 +99,11 @@ app.get('/pattern',function (req,res){
 					var blue = req.query.blue;
 					var brightness = parseInt(req.query.brightness);
 					var delay = parseFloat(req.query.delay);
-					if( ( red === null || red === undefined || red < 0 || red > 255 ) ||
-						( green === null || green === undefined || green < 0 || green > 255 ) ||
-						( blue === null || blue === undefined || blue < 0 || blue > 255 ) ||
-						( brightness === null || brightness === undefined || brightness < 0 || brightness > 100 ) || 
-						( delay === null || delay === undefined || delay < 0 || delay > 1000 )) {
+					if( ( red == null || red === undefined || red < 0 || red > 255 ) ||
+						( green == null || green === undefined || green < 0 || green > 255 ) ||
+						( blue == null || blue === undefined || blue < 0 || blue > 255 ) ||
+						( brightness == null || brightness === undefined || brightness < 0 || brightness > 100 ) || 
+						( delay == null || delay === undefined || delay < 0 || delay > 1000 )) {
 						res.send("{}");
 						return;
 					}
@@ -120,9 +120,9 @@ app.get('/pattern',function (req,res){
 					var brightness = parseInt(req.query.brightness);
 					var delay = parseFloat(req.query.delay);
 					var distance = parseInt(req.query.distance);
-					if( ( distance === null || distance === undefined || distance < 0 || distance > 1000 ) ||
-						( brightness === null || brightness === undefined || brightness < 0 || brightness > 100 ) || 
-						( delay === null || delay === undefined || delay < 0 || delay > 1000 )) {
+					if( ( distance == null || distance === undefined || distance < 0 || distance > 1000 ) ||
+						( brightness == null || brightness === undefined || brightness < 0 || brightness > 100 ) || 
+						( delay == null || delay === undefined || delay < 0 || delay > 1000 )) {
 						res.send("{}");
 						return;
 					}
