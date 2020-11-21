@@ -120,7 +120,7 @@ app.get('/pattern',function (req,res){
 					var brightness = req.query.brightness;
 					var speed = req.query.speed;
 					if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
-						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+						( speed == null || typeof(speed) === undefined || speed < 1 || speed > 20 )) {
 						res.send("{}");
 						return;
 					}
@@ -136,7 +136,7 @@ app.get('/pattern',function (req,res){
 				var brightness = req.query.brightness;
 				var speed = req.query.speed;
 				if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
-					( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+					( speed == null || typeof(speed) === undefined || speed < 1 || speed > 20 )) {
 					res.send("{}");
 					return;
 				}
@@ -152,7 +152,7 @@ app.get('/pattern',function (req,res){
 				var brightness = req.query.brightness;
 				var speed = req.query.speed;
 				if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
-					( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+					( speed == null || typeof(speed) === undefined || speed < 1 || speed > 20 )) {
 					res.send("{}");
 					return;
 				}
@@ -170,7 +170,7 @@ app.get('/pattern',function (req,res){
 				var iterations = req.query.iterations;
 				if( ( iterations == null || typeof(iterations) === undefined || iterations < 1 || iterations > 35 ) ||
 					( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
-					( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+					( speed == null || typeof(speed) === undefined || speed < 1 || speed > 20 )) {
 					res.send("{}");
 					return;
 				}
