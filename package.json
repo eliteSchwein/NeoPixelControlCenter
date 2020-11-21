@@ -1,6 +1,6 @@
 {
   "name": "neopixelcontrolserver",
-  "version": "B0.1",
+  "version": "0.0.1",
   "description": "A webserver built with express, to control single led on neopixel throught a rest api or interface",
   "main": "neopixel_server.js",
   "dependencies": {
