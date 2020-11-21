@@ -98,42 +98,42 @@ app.get('/pattern',function (req,res){
 					var green = req.query.green;
 					var blue = req.query.blue;
 					var brightness = req.query.brightness;
-					var delay = req.query.delay;
+					var speed = req.query.speed;
 					if( ( red == null || typeof(red) === undefined || red < 0 || red > 255 ) ||
 						( green == null || typeof(green) === undefined || green < 0 || green > 255 ) ||
 						( blue == null || typeof(blue) === undefined || blue < 0 || blue > 255 ) ||
 						( brightness == null || typeof(brightness) === undefined || brightness < 0 || brightness > 100 ) || 
-						( delay == null || typeof(delay) === undefined || delay < 0 || delay > 1000 )) {
+						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 1000 )) {
 						res.send("{}");
 						return;
 					}
 					conf.pattern = "iterate";
 					conf.color = rgb2Int(red,green,blue);
 					conf.brightness = brightness;
-					conf.delay = delay;
+					conf.speed = speed;
 					res.type("application/json");
 					res.send(JSON.stringify(conf))
 					switchAllLedOff();
-					setTimeout(function(){iterate(rgb2Int(red,green,blue), parseInt(brightness), parseFloat(delay))}, 100);
+					setTimeout(function(){iterate(rgb2Int(red,green,blue), parseInt(brightness), parseFloat(speed))}, 100);
 					break;
 			case "rainbow":
 					var brightness = req.query.brightness;
-					var delay = req.query.delay;
-					var distance = req.query.distance;
-					if( ( distance == null || typeof(distance) === undefined || distance < 0 || distance > 1000 ) ||
+					var speed = req.query.speed;
+					var iterations = req.query.iterations;
+					if( ( iterations == null || typeof(iterations) === undefined || iterations < 0 || iterations > 1000 ) ||
 						( brightness == null || typeof(brightness) === undefined || brightness < 0 || brightness > 100 ) || 
-						( delay == null || typeof(delay) === undefined || delay < 0 || delay > 1000 )) {
+						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 1000 )) {
 						res.send("{}");
 						return;
 					}
 					conf.pattern = "rainbow";
 					conf.brightness = brightness;
-					conf.delay = delay;
-					conf.distance = distance;
+					conf.speed = speed;
+					conf.iterations = iterations;
 					res.type("application/json");
 					res.send(JSON.stringify(conf));
 					switchAllLedOff();
-					setTimeout(function(){rainbow(parseInt(distance),parseInt(brightness),parseInt(delay))}, 100);
+					setTimeout(function(){rainbow(parseFloat(iterations),parseInt(brightness),parseInt(speed))}, 100);
 					break;
 			default:
 					res.type("application/json");
@@ -192,7 +192,7 @@ function rgb2Int(r, g, b) {
 }
 
 //Iterate over all of the LEDs with a given color and brightness
-function iterate(color, brightness, delay){
+function iterate(color, brightness, speed){
 	var offset = 0;
 	ws281x.setBrightness(brightness);
 	timer=setInterval(function () {
@@ -204,17 +204,17 @@ function iterate(color, brightness, delay){
 
 	  offset = (offset + 1) % NUM_LEDS;
 	  ws281x.render(pixelData);
-	}, delay);
+	}, speed);
 };
 
 //Continually change colors smoothly. Should be set to a timeout.
-function rainbow(distance,brightness,delay){
+function rainbow(iterations,brightness,speed){
 	ws281x.setBrightness(brightness);
 	var offset = 0;
 	timer=setInterval(function () {
-		for (var j = 0; j < 256*delay+offset; j++){
+		for (var j = 0; j < 256*speed+offset; j++){
 			for (var i = 0; i < NUM_LEDS; i++) {
-				pixelData[i] = colorwheel(((i * 256 / NUM_LEDS / distance) + j) & 255);
+				pixelData[i] = colorwheel(((i * 256 / NUM_LEDS / iterations) + j) & 255);
 			  }
 		}
 		offset = (offset + 1) % 256;
