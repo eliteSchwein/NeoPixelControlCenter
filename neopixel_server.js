@@ -133,7 +133,7 @@ app.get('/pattern',function (req,res){
 					res.type("application/json");
 					res.send(JSON.stringify(conf));
 					switchAllLedOff();
-					setTimeout(function(){rainbow(parseInt(distance),parseInt(brightness),parseFloat(delay))}, 100);
+					setTimeout(function(){rainbow(parseInt(distance),parseInt(brightness),parseInt(delay))}, 100);
 					break;
 			default:
 					res.type("application/json");
@@ -209,14 +209,14 @@ function iterate(color, brightness, delay){
 
 //Continually change colors smoothly. Should be set to a timeout.
 function rainbow(distance,brightness,delay){
-	var offset = 0;
 	ws281x.setBrightness(brightness);
 	timer=setInterval(function () {
-	  for (var i = 0; i < NUM_LEDS; i++) {
-		pixelData[i] = colorwheel((offset + i) % 256);
-	  }
-	  offset = (offset + distance) % 256;
-	  ws281x.render(pixelData);
+		for (var j = 0; j < 256*distance; j++){
+			for (var i = 0; i < NUM_LEDS; i++) {
+				pixelData[i] = colorwheel((i * 256 / NUM_LEDS + j) & 255);
+			  }
+		}
+	  	ws281x.render(pixelData);
 	}, delay);
 	// rainbow-colors, taken from http://goo.gl/Cs3H0v
 	function colorwheel(pos) {
