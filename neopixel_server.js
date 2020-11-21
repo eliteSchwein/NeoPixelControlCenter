@@ -210,12 +210,14 @@ function iterate(color, brightness, delay){
 //Continually change colors smoothly. Should be set to a timeout.
 function rainbow(distance,brightness,delay){
 	ws281x.setBrightness(brightness);
+	var offset = 0;
 	timer=setInterval(function () {
 		for (var j = 0; j < 256*distance; j++){
 			for (var i = 0; i < NUM_LEDS; i++) {
 				pixelData[i] = colorwheel((i * 256 / NUM_LEDS + j) & 255);
 			  }
 		}
+		offset = (offset + 1) % 256;
 	  	ws281x.render(pixelData);
 	}, delay);
 	// rainbow-colors, taken from http://goo.gl/Cs3H0v
