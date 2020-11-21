@@ -132,61 +132,61 @@ app.get('/pattern',function (req,res){
 					switchAllLedOff();
 					setTimeout(function(){rainbow(1,parseInt(brightness),parseInt(speed))}, 100);
 					break;
-					case "rainbow-cycle":
-						var brightness = req.query.brightness;
-						var speed = req.query.speed;
-						if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
-							( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
-							res.send("{}");
-							return;
-						}
-						conf.pattern = "rainbow-cycle";
-						conf.brightness = brightness;
-						conf.speed = speed;
-						res.type("application/json");
-						res.send(JSON.stringify(conf));
-						switchAllLedOff();
-						setTimeout(function(){rainbow(3,parseInt(brightness),parseInt(speed))}, 100);
-						break;
-				case "rainbow-full":
-					var brightness = req.query.brightness;
-					var speed = req.query.speed;
-					if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
-						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
-						res.send("{}");
-						return;
-					}
-					conf.pattern = "rainbow-full";
-					conf.brightness = brightness;
-					conf.speed = speed;
-					res.type("application/json");
-					res.send(JSON.stringify(conf));
-					switchAllLedOff();
-					setTimeout(function(){rainbow(35,parseInt(brightness),parseInt(speed))}, 100);
-					break;
-				case "rainbow-custom":
-					var brightness = req.query.brightness;
-					var speed = req.query.speed;
-					var iterations = req.query.iterations;
-					if( ( iterations == null || typeof(iterations) === undefined || iterations < 1 || iterations > 35 ) ||
-						( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
-						( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
-						res.send("{}");
-						return;
-					}
-					conf.pattern = "rainbow";
-					conf.brightness = brightness;
-					conf.speed = speed;
-					conf.iterations = iterations;
-					res.type("application/json");
-					res.send(JSON.stringify(conf));
-					switchAllLedOff();
-					setTimeout(function(){rainbow(parseFloat(iterations),parseInt(brightness),parseInt(speed))}, 100);
-					break;
-				default:
-					res.type("application/json");
-					res.send('{"pattern": "Not Found"}')
-					break;
+			case "rainbow-cycle":
+				var brightness = req.query.brightness;
+				var speed = req.query.speed;
+				if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
+					( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+					res.send("{}");
+					return;
+				}
+				conf.pattern = "rainbow-cycle";
+				conf.brightness = brightness;
+				conf.speed = speed;
+				res.type("application/json");
+				res.send(JSON.stringify(conf));
+				switchAllLedOff();
+				setTimeout(function(){rainbow(3,parseInt(brightness),parseInt(speed))}, 100);
+				break;
+			case "rainbow-full":
+				var brightness = req.query.brightness;
+				var speed = req.query.speed;
+				if( ( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
+					( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+					res.send("{}");
+					return;
+				}
+				conf.pattern = "rainbow-full";
+				conf.brightness = brightness;
+				conf.speed = speed;
+				res.type("application/json");
+				res.send(JSON.stringify(conf));
+				switchAllLedOff();
+				setTimeout(function(){rainbow(35,parseInt(brightness),parseInt(speed))}, 100);
+				break;
+			case "rainbow-custom":
+				var brightness = req.query.brightness;
+				var speed = req.query.speed;
+				var iterations = req.query.iterations;
+				if( ( iterations == null || typeof(iterations) === undefined || iterations < 1 || iterations > 35 ) ||
+					( brightness == null || typeof(brightness) === undefined || brightness < 5 || brightness > 100 ) || 
+					( speed == null || typeof(speed) === undefined || speed < 0 || speed > 20 )) {
+					res.send("{}");
+					return;
+				}
+				conf.pattern = "rainbow";
+				conf.brightness = brightness;
+				conf.speed = speed;
+				conf.iterations = iterations;
+				res.type("application/json");
+				res.send(JSON.stringify(conf));
+				switchAllLedOff();
+				setTimeout(function(){rainbow(parseFloat(iterations),parseInt(brightness),parseInt(speed))}, 100);
+				break;
+			default:
+				res.type("application/json");
+				res.send('{"pattern": "Not Found"}')
+				break;
 	}
 	return;
 });
@@ -196,8 +196,8 @@ defBrightness();
 setTimeout(startupSequence, 200);
 
 function startupSequence() {
-	rainbow(3,parseInt(100),parseInt(0));
-	setTimeout(startServer, 1000);
+	rainbow(1,100,0);
+	setTimeout(startServer, 2000);
 }
 function startServer() {
 	switchAllLedOff();
@@ -254,7 +254,7 @@ function rainbow(iterations,brightness,speed){
 	ws281x.setBrightness(brightness);
 	var offset = 0;
 	timer=setInterval(function () {
-		for (var j = 0; j < 256*speed+offset; j++){
+		for (var j = 0; j < 256*speed+offset+iterations; j++){
 			for (var i = 0; i < NUM_LEDS; i++) {
 				pixelData[i] = colorwheel(((i * 256 / NUM_LEDS / iterations) + j) & 255);
 			  }
