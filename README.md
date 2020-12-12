@@ -1,5 +1,5 @@
 # NeoPixelControlCenter
-This project helps anyone to control LEDS on a NeoPixel Led Strip, thanks to 2 simple  HTTP Get / API:
+This project helps anyone to control LEDS on a NeoPixel Led Strip, thanks to simple  HTTP Get / API:
 - http://ip:8083/switchAllOff? will switch off all the leds
 - http://ip:8083/changeLed?ledId=[0-7]&red=[0-255]&green=[0-255]&blue=[0-255]&brightness=[0-100] will change the ledId selected with the color (red,green,blue) and the brightness passed.
 - http://ip:8083/changeLedInRange?from=[0-7]&to=[0-7]&red=[0-255]&green=[0-255]&blue=[0-255]&brightness=[0-100] will change the ledId in the range [from,to] with the color provided.
