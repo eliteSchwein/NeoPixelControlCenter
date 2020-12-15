@@ -15,7 +15,7 @@ var app = express();
 var NUM_LEDS = parseInt(process.argv[2], 10) || NUM_LED,
 	pixelData = new Uint32Array(NUM_LEDS);
 
-ws281x.init(NUM_LEDS);
+ws281x.init({count: NUM_LEDS, stripType: ws281x.WS2811_STRIP_GRB});
 
 var timer;
 
@@ -44,7 +44,7 @@ app.get('/updateLeds', function (req, res) {
 			      pixelData = new Uint32Array(NUM_LEDS);
 		newws281x.init(NUM_LEDS);
 		newws281x.reset();
-		ws281x = newws281x;
+		ws281x.init({count: NUM_LEDS, stripType: ws281x.WS2811_STRIP_GRB});
 		res.type("application/json");
 		res.send('{"status":"ok"}');
 	},1000);
