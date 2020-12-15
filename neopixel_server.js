@@ -39,7 +39,7 @@ app.get('/updateLeds', function (req, res) {
 		return;
 	}
 	NUM_LEDS = parseInt(process.argv[2], 10) || NUM_LED,
-	pixelData = new Uint32Array(NUM_LEDS);
+		      pixelData = new Uint32Array(NUM_LEDS);
 	ws281x.init(NUM_LEDS);
 	ws281x.reset();
 	res.type("application/json");
