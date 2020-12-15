@@ -39,11 +39,12 @@ app.get('/updateLeds', function (req, res) {
 	}
 	switchAllLedOff();
 	setTimeout(function(){
-		ws281x = require('rpi-ws281x-native');
+		var newws281x = require('rpi-ws281x-native');
 		NUM_LEDS = parseInt(process.argv[2], 10) || NUM_LED,
 			      pixelData = new Uint32Array(NUM_LEDS);
-		ws281x.init(NUM_LEDS);
-		ws281x.reset();
+		newws281x.init(NUM_LEDS);
+		newws281x.reset();
+		ws281x = newws281x;
 		res.type("application/json");
 		res.send('{"status":"ok"}');
 	},1000);
