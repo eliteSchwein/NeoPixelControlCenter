@@ -15,7 +15,7 @@ var app = express();
 var NUM_LEDS = parseInt(process.argv[2], 10) || NUM_LED,
 	pixelData = new Uint32Array(NUM_LEDS);
 
-ws281x.init({count: NUM_LEDS, stripType: ws281x.WS2811_STRIP_GRB});
+ws281x.init(NUM_LEDS);
 
 var timer;
 
