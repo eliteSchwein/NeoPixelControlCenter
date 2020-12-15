@@ -28,6 +28,11 @@ process.on('SIGINT', function () {
   process.nextTick(function () { process.exit(0); });
 });
 
+app.get('/', function (req, res) {
+	res.type("application/json");
+	res.send('{"status":"ok"}');
+});
+
 app.get('/switchAllOff', function (req, res) {
 	switchAllLedOff();
 	res.type("application/json");
