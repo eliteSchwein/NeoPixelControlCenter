@@ -2,7 +2,7 @@
 
 const defaultBrightness = 10;
 const redColor = rgb2Int(255,0,0);
-const NUM_LED = 45;
+var NUM_LED = 45;
 const PORT = 8083;
 
 var ws281x = require('rpi-ws281x-native');
@@ -27,6 +27,21 @@ process.on('SIGINT', function () {
 
 app.get('/switchAllOff', function (req, res) {
 	switchAllLedOff();
+	res.type("application/json");
+	res.send('{"status":"ok"}');
+});
+
+app.get('/updateLeds', function (req, res) {
+	switchAllLedOff();
+	var amount  = req.query.amount;
+	if(amount == null ||typeof(amount === undefined || amount < 1)){
+		res.send("{}");
+		return;
+	}
+	NUM_LEDS = parseInt(process.argv[2], 10) || NUM_LED,
+	pixelData = new Uint32Array(NUM_LEDS);
+	ws281x.init(NUM_LEDS);
+	ws281x.reset();
 	res.type("application/json");
 	res.send('{"status":"ok"}');
 });
