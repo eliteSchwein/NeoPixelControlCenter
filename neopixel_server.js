@@ -7,10 +7,13 @@ const PORT = 8083;
 
 var ws281x = require('rpi-ws281x-native');
 var express = require('express');
+var cors = require('cors')
 
 var ledIdInit = 0;
 var initTimes = 4 * 8;
 var app = express();
+
+app.use(cors())
 
 var NUM_LEDS = parseInt(process.argv[2], 10) || NUM_LED,
 	pixelData = new Uint32Array(NUM_LEDS);
