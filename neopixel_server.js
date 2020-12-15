@@ -34,7 +34,7 @@ app.get('/switchAllOff', function (req, res) {
 app.get('/updateLeds', function (req, res) {
 	switchAllLedOff();
 	var amount  = req.query.amount;
-	if(amount == null ||typeof(amount === undefined) || amount < 1){
+	if(amount == null ||typeof(amount) === undefined || amount < 1){
 		res.send("{}");
 		return;
 	}
