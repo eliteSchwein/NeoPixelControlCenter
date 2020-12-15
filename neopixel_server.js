@@ -31,25 +31,6 @@ app.get('/switchAllOff', function (req, res) {
 	res.send('{"status":"ok"}');
 });
 
-app.get('/updateLeds', function (req, res) {
-	var amount  = req.query.amount;
-	if(amount == null ||typeof(amount) === undefined || amount < 1){
-		res.send("{}");
-		return;
-	}
-	switchAllLedOff();
-	setTimeout(function(){
-		var newws281x = require('rpi-ws281x-native');
-		NUM_LEDS = parseInt(process.argv[2], 10) || NUM_LED,
-			      pixelData = new Uint32Array(NUM_LEDS);
-		newws281x.init(NUM_LEDS);
-		newws281x.reset();
-		ws281x.init({count: NUM_LEDS, stripType: ws281x.WS2811_STRIP_GRB});
-		res.type("application/json");
-		res.send('{"status":"ok"}');
-	},1000);
-});
-
 app.get('/changeLedInRange',function (req,res){
 	var from = req.query.from;
 	var to  = req.query.to;
